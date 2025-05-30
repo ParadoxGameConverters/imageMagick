@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2020 ImageMagick Studio LLC, a non-profit organization
+  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
 
   You may not use this file except in compliance with the License.  You may
@@ -76,7 +76,8 @@ typedef enum
   RGBOQuantum,
   RGBPadQuantum,
   RGBQuantum,
-  YellowQuantum
+  YellowQuantum,
+  MultispectralQuantum
 } QuantumType;
 
 typedef struct _QuantumInfo
@@ -102,9 +103,9 @@ static inline unsigned char ScaleQuantumToChar(const Quantum quantum)
   return((unsigned char) quantum);
 #else
   if ((IsNaN(quantum) != 0) || (quantum <= 0.0))
-    return(0);
+    return((unsigned char) 0);
   if (quantum >= 255.0)
-    return(255);
+    return((unsigned char) 255);
   return((unsigned char) (quantum+0.5));
 #endif
 }
@@ -114,11 +115,12 @@ static inline unsigned char ScaleQuantumToChar(const Quantum quantum)
 #if !defined(MAGICKCORE_HDRI_SUPPORT)
   return((unsigned char) (((quantum+128UL)-((quantum+128UL) >> 8)) >> 8));
 #else
-  if ((IsNaN(quantum) != 0) || (quantum <= 0.0))
-    return(0);
-  if ((quantum/257.0) >= 255.0)
-    return(255);
-  return((unsigned char) (quantum/257.0+0.5));
+  if ((IsNaN(quantum) != 0) || (quantum <= 0.0f))
+    return((unsigned char) 0);
+  const Quantum scaled = quantum/257.0f;
+  if (scaled >= 255.0f)
+    return((unsigned char) 255);
+  return((unsigned char) (scaled+0.5f));
 #endif
 }
 #elif (MAGICKCORE_QUANTUM_DEPTH == 32)
@@ -130,9 +132,10 @@ static inline unsigned char ScaleQuantumToChar(const Quantum quantum)
 #else
   if ((IsNaN(quantum) != 0) || (quantum <= 0.0))
     return(0);
-  if ((quantum/16843009.0) >= 255.0)
-    return(255);
-  return((unsigned char) (quantum/16843009.0+0.5));
+  const Quantum scaled = quantum/16843009.0;
+  if (scaled >= 255.0)
+    return((unsigned char) 255);
+  return((unsigned char) (scaled+0.5));
 #endif
 }
 #elif (MAGICKCORE_QUANTUM_DEPTH == 64)
@@ -143,9 +146,10 @@ static inline unsigned char ScaleQuantumToChar(const Quantum quantum)
 #else
   if ((IsNaN(quantum) != 0) || (quantum <= 0.0))
     return(0);
-  if ((quantum/72340172838076673.0) >= 255.0)
-    return(255);
-  return((unsigned char) (quantum/72340172838076673.0+0.5));
+  const Quantum scaled = quantum/72340172838076673.0;
+  if (scaled >= 255.0)
+    return((unsigned char) 255);
+  return((unsigned char) (scaled+0.5));
 #endif
 }
 #endif
