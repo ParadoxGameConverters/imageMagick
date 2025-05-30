@@ -1,5 +1,5 @@
 /*
-  Copyright 1999-2020 ImageMagick Studio LLC, a non-profit organization
+  Copyright @ 1999 ImageMagick Studio LLC, a non-profit organization
   dedicated to making software imaging solutions freely available.
 
   You may not use this file except in compliance with the License.  You may
@@ -60,6 +60,9 @@ extern WandExport double
 extern WandExport EndianType
   MagickGetImageEndian(MagickWand *);
 
+extern WandExport FilterType
+  MagickGetImageFilter(MagickWand *);
+
 extern WandExport GravityType
   MagickGetImageGravity(MagickWand *);
 
@@ -93,6 +96,8 @@ extern WandExport MagickBooleanType
   MagickAutoLevelImage(MagickWand *),
   MagickAutoOrientImage(MagickWand *),
   MagickAutoThresholdImage(MagickWand *,const AutoThresholdMethod),
+  MagickBilateralBlurImage(MagickWand *,const double,const double,const double,
+    const double),
   MagickBlackThresholdImage(MagickWand *,const PixelWand *),
   MagickBlueShiftImage(MagickWand *,const double),
   MagickBlurImage(MagickWand *,const double,const double),
@@ -172,11 +177,9 @@ extern WandExport MagickBooleanType
   MagickGetImageGreenPrimary(MagickWand *,double *,double *,double *),
   MagickGetImageLength(MagickWand *,MagickSizeType *),
   MagickGetImageMatteColor(MagickWand *,PixelWand *),
-  MagickGetImagePage(MagickWand *,size_t *,size_t *,ssize_t *,
-    ssize_t *),
+  MagickGetImagePage(MagickWand *,size_t *,size_t *,ssize_t *,ssize_t *),
   MagickGetImagePixelColor(MagickWand *,const ssize_t,const ssize_t,
     PixelWand *),
-  MagickGetImageRange(MagickWand *,double *,double *),
   MagickGetImageRedPrimary(MagickWand *,double *,double *,double *),
   MagickGetImageResolution(MagickWand *,double *,double *),
   MagickGetImageWhitePoint(MagickWand *,double *,double *,double *),
@@ -191,6 +194,7 @@ extern WandExport MagickBooleanType
     const PixelInterpolateMethod),
   MagickInverseFourierTransformImage(MagickWand *,MagickWand *,
     const MagickBooleanType),
+  MagickKmeansImage(MagickWand *, const size_t, const size_t, const double),
   MagickKuwaharaImage(MagickWand *,const double,const double),
   MagickLabelImage(MagickWand *,const char *),
   MagickLevelImage(MagickWand *,const double,const double,const double),
@@ -203,7 +207,6 @@ extern WandExport MagickBooleanType
   MagickLocalContrastImage(MagickWand *,const double,const double),
   MagickMagnifyImage(MagickWand *),
   MagickMeanShiftImage(MagickWand *,const size_t,const size_t,const double),
-  MagickMedianConvolveImage(MagickWand *,const double),
   MagickMinifyImage(MagickWand *),
   MagickModeImage(MagickWand *,const double),
   MagickModulateImage(MagickWand *,const double,const double,const double),
@@ -278,6 +281,7 @@ extern WandExport MagickBooleanType
   MagickSetImageEndian(MagickWand *,const EndianType),
   MagickSetImageExtent(MagickWand *,const size_t,const size_t),
   MagickSetImageFilename(MagickWand *,const char *),
+  MagickSetImageFilter(MagickWand *,const FilterType),
   MagickSetImageFormat(MagickWand *,const char *),
   MagickSetImageFuzz(MagickWand *,const double),
   MagickSetImageGamma(MagickWand *,const double),
@@ -287,6 +291,7 @@ extern WandExport MagickBooleanType
   MagickSetImageInterlaceScheme(MagickWand *,const InterlaceType),
   MagickSetImageInterpolateMethod(MagickWand *,const PixelInterpolateMethod),
   MagickSetImageIterations(MagickWand *,const size_t),
+  MagickSetImageMask(MagickWand *,const PixelMask,const MagickWand *),
   MagickSetImageMatte(MagickWand *,const MagickBooleanType),
   MagickSetImageMatteColor(MagickWand *,const PixelWand *),
   MagickSetImageOrientation(MagickWand *,const OrientationType),
@@ -340,6 +345,7 @@ extern WandExport MagickBooleanType
   MagickWaveImage(MagickWand *,const double,const double,
     const PixelInterpolateMethod),
   MagickWaveletDenoiseImage(MagickWand *,const double,const double),
+  MagickWhiteBalanceImage(MagickWand *),
   MagickWhiteThresholdImage(MagickWand *,const PixelWand *),
   MagickWriteImage(MagickWand *,const char *),
   MagickWriteImageFile(MagickWand *,FILE *),
